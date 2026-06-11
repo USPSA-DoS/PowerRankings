@@ -22,14 +22,15 @@
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
-            padding: 16px;
+            padding: 12px; /* Slightly reduced to maximize content space in small embedding containers */
             display: flex;
             justify-content: center;
+            align-items: flex-start;
         }
 
         .calc-container {
-            width: 100%;
-            max-width: 900px;
+            width: 100%; /* Dynamically fits 100% of its Genially box */
+            box-sizing: border-box;
             background: var(--card-bg);
             border-radius: 12px;
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -40,39 +41,42 @@
         .calc-header {
             background: var(--primary);
             color: white;
-            padding: 20px;
+            padding: 16px;
             text-align: center;
         }
 
         .calc-header h2 {
             margin: 0;
-            font-size: 1.5rem;
+            font-size: 1.3rem; /* Slightly reduced header text for embedding safety */
             letter-spacing: 0.5px;
         }
 
         .calc-header p {
             margin: 6px 0 0 0;
-            font-size: 0.875rem;
+            font-size: 0.85rem;
             opacity: 0.85;
         }
 
         .calc-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 24px;
-            padding: 24px;
+            gap: 16px;
+            padding: 16px;
         }
 
-        @media (min-width: 650px) {
+        /* Adjusted from 650px to 550px so it splits gracefully into 2 columns even in medium-sized embedded windows */
+        @media (min-width: 550px) {
             .calc-grid {
                 grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                padding: 20px;
             }
         }
 
         .input-section {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
         }
 
         .form-group {
@@ -95,6 +99,8 @@
             background-color: #fff;
             outline: none;
             transition: border-color 0.2s;
+            width: 100%;
+            box-sizing: border-box; /* Ensures padding doesn't break input widths */
         }
 
         select:focus, input[type="number"]:focus {
@@ -121,12 +127,13 @@
         .radio-btn label {
             display: block;
             text-align: center;
-            padding: 10px;
+            padding: 10px 4px;
             background: #f1f5f9;
             border: 1px solid var(--border);
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
+            font-size: 0.85rem;
             transition: all 0.2s;
         }
 
@@ -138,17 +145,17 @@
             background: #f8fafc;
             border-radius: 8px;
             border: 1px solid var(--border);
-            padding: 20px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
         }
 
         .output-card {
             background: white;
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 14px;
+            padding: 12px;
             position: relative;
         }
 
@@ -166,7 +173,7 @@
         .card-filter::before { background-color: #3b82f6; }
 
         .card-title {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: #64748b;
@@ -175,7 +182,7 @@
         }
 
         .card-value {
-            font-size: 1.75rem;
+            font-size: 1.6rem;
             font-weight: 700;
             color: var(--text);
         }
@@ -192,10 +199,11 @@
             background: #ede9fe;
             padding: 4px 6px;
             border-radius: 4px;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: #5b21b6;
             display: inline-block;
             margin-top: 6px;
+            word-break: break-all; /* Prevents formula string from blowing out the card box size */
         }
     </style>
 </head>
@@ -208,7 +216,6 @@
     </div>
 
     <div class="calc-grid">
-        <!-- INPUTS -->
         <div class="input-section">
             <div class="form-group">
                 <label for="myConf">Your Conference Tier</label>
@@ -254,9 +261,7 @@
             </div>
         </div>
 
-        <!-- OUTPUTS -->
         <div class="output-section">
-            <!-- FLOOR CARD -->
             <div class="output-card card-floor">
                 <div class="card-title">The Floor (Match Value)</div>
                 <div class="card-value" id="outValue">0.00</div>
@@ -264,7 +269,6 @@
                 <div class="math-note" id="outMathText">Math: -</div>
             </div>
 
-            <!-- FILTER CARD -->
             <div class="output-card card-filter">
                 <div class="card-title">The Filter (Match Weight)</div>
                 <div class="card-value" id="outWeight">1.00</div>
